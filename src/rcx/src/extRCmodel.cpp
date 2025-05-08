@@ -733,6 +733,7 @@ extDistWidthRCTable::extDistWidthRCTable(bool over,
   _widthMapTable = nullptr;
 
   _metCnt = metCnt;
+  _widthCnt = maxWidthCnt;
 
   _rcDistTable = new extDistRCTable**[_metCnt];
   uint jj;
@@ -827,6 +828,7 @@ extDistWidthRCTable::extDistWidthRCTable(bool dummy,
   _widthTableAllocFlag = true;
 
   _metCnt = layerCnt;
+  _widthCnt = widthCnt;
 
   _rcDistTable = new extDistRCTable**[_metCnt];
   uint jj;
@@ -876,6 +878,7 @@ extDistWidthRCTable::extDistWidthRCTable(bool over,
   _widthTableAllocFlag = true;
   int widthCnt = 12;
   _widthTable = new Ath__array1D<int>(widthCnt);
+  _widthCnt = widthCnt;
 
   if (!skip_width_map_table) {
     widthCnt = widthTable->getCnt();
@@ -1002,6 +1005,9 @@ extDistWidthRCTable::extDistWidthRCTable(bool over,
   }
 
   _metCnt = metCnt;
+  _widthCnt = widthCnt;
+  _diagWidthCnt = diagWidthCnt;
+  _diagDistCnt = diagDistCnt;
   _rcDiagDistTable = new extDistRCTable****[_metCnt];
   for (jj = 0; jj < _metCnt; jj++) {
     _rcDiagDistTable[jj] = new extDistRCTable***[widthCnt];
@@ -1100,24 +1106,19 @@ extDistWidthRCTable::~extDistWidthRCTable()
   uint ii, jj, kk, ll;
   if (_rcDistTable) {
     for (jj = 0; jj < _metCnt; jj++) {
-      for (ii = 0; ii < _widthTable->getCnt(); ii++) {
-        if (_rcDistTable[jj][ii]) {
-          delete _rcDistTable[jj][ii];
-        }
+      for (ii = 0; ii < _widthCnt; ii++) {
+        delete _rcDistTable[jj][ii];
       }
-
-      if (_rcDistTable[jj]) {
-        delete[] _rcDistTable[jj];
-      }
+      delete[] _rcDistTable[jj];
     }
     delete[] _rcDistTable;
   }
 
   if (_rcDiagDistTable) {
     for (jj = 0; jj < _metCnt; jj++) {
-      for (ii = 0; ii < _widthTable->getCnt(); ii++) {
-        for (kk = 0; kk < _diagWidthTable[jj]->getCnt(); kk++) {
-          for (ll = 0; ll < _diagDistTable[jj]->getCnt(); ll++) {
+      for (ii = 0; ii < _widthCnt; ii++) {
+        for (kk = 0; kk < _diagWidthCnt; kk++) {
+          for (ll = 0; ll < _diagDistCnt; ll++) {
             delete _rcDiagDistTable[jj][ii][kk][ll];
           }
           delete[] _rcDiagDistTable[jj][ii][kk];
