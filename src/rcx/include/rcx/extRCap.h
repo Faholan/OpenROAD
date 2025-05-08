@@ -186,8 +186,8 @@ class extDistRCTable
   void makeCapTableOver();
   void makeCapTableUnder();
 
-  Ath__array1D<extDistRC*>* _measureTable;
-  Ath__array1D<extDistRC*>* _computeTable;
+  Ath__array1D<extDistRC*>* _measureTable = nullptr;
+  Ath__array1D<extDistRC*>* _computeTable = nullptr;
   Ath__array1D<extDistRC*>* _measureTableR[16];
   Ath__array1D<extDistRC*>* _computeTableR[16];  // OPTIMIZE
   int _maxDist;
