@@ -156,6 +156,7 @@ extDistRCTable::extDistRCTable(uint distCnt)
 
   for (int i = 0; i < 16; i++) {
     _measureTableR[i] = nullptr;
+    _computeTableR[i] = nullptr;
   }
 }
 
@@ -167,6 +168,9 @@ extDistRCTable::~extDistRCTable()
   for (int i = 0; i < 16; i++) {
     if (_measureTableR[i] != _measureTable) {
       delete _measureTableR[i];
+    }
+    if (_computeTableR[i] != _computeTable) {
+      delete _computeTableR[i];
     }
   }
 }
